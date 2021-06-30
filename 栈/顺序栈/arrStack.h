@@ -1,5 +1,4 @@
 #pragma once
-#ifndef STACK_ARRSTACK_H
 
 //创建一个栈
 //删除一个栈
@@ -11,9 +10,9 @@
 //输出栈
 
 #include <iostream>
-
+#ifndef STACK_ARRSTACK_H
 #define STACK_ARRSTACK_H
-typedef unsigned int UINT
+typedef unsigned int UINT;
 
 using namespace std;
 
@@ -23,7 +22,7 @@ class arrStack
 public:
 	arrStack(int capacity);			//构造函数 初始化栈
 	~arrStack(void);		//析构栈
-	Destroy();				//删除栈
+	//Destroy();				//删除栈
 
 	bool IsEmpty() const;		//判断是否为空
 	bool IsFull() const;		//判断是否为满
@@ -32,16 +31,15 @@ public:
 	T& GetTop() const;			//得到栈顶元素
 	UINT GetLength() const;		//返回栈的长度
 
-	bool Push(T& data);			//往栈中压入数据
+	void Push(T& data);			//往栈中压入数据
 	void Expand();				//栈扩容
-	bool Pop();					//将栈顶数据弹出
+	bool Pop(T& x);					//将栈顶数据弹出
 	void print();				//输出栈
 
 private:
 	int m_pTop;			//栈顶指针
-	UINT m_nStackLen	//栈容量
+	UINT m_nStackLen;	//栈容量
 	T* arr;				//数组arr
-	
 };
 
 #endif
