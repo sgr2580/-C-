@@ -14,10 +14,10 @@ public:
 };
 
 //Ô½½ç
-class OutOfBounds
+class OutOdBounds
 {
 public:
-	OutOfBounds()
+	OutOdBounds()
 	{
 		cout << "out of bounts" << endl;
 	}

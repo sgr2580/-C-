@@ -68,7 +68,7 @@ int main()
 	//text01();
 
 
-	//test02();
+	test02();
 
 	system("pause");
 	return 0;
