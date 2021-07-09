@@ -1,23 +1,24 @@
-#pragma
+
 //¶ş²æÁ´±í
 #include <iostream>
 #include "LinkTree.h"
 #include "linkstack.h"
 #include "NoMem.h"
+#include "LinkQueue.hpp"
 
 using namespace std;
 
-template<class T>
-LinkBintree<T>::LinkBintree()			//¹¹Ôìº¯Êı
-{
-	Root = NULL;			//½«¸ù½ÚµãµÄÖ¸ÕëÖÃÎª¿Õ
-}
-
-template<class T>
-LinkBintree<T>::~LinkBintree()			//Îö¹¹º¯Êı
-{
-
-}
+//template<class T>
+//LinkBintree<T>::LinkBintree()//¹¹Ôìº¯Êı
+//{
+//	Root = NULL;			//½«¸ù½ÚµãµÄÖ¸ÕëÖÃÎª¿Õ
+//}
+//
+//template<class T>
+//LinkBintree<T>::~LinkBintree()//Îö¹¹º¯Êı
+//{
+//	Clear();			//Çå¿Õ¶ş²æÊ÷ÖĞµÄ½áµã
+//}
 
 template<class T>
 bool LinkBintree<T>::IsEmpty()								//ÅĞ¶ÏÊÇ·ñÎª¿Õ
@@ -26,15 +27,15 @@ bool LinkBintree<T>::IsEmpty()								//ÅĞ¶ÏÊÇ·ñÎª¿Õ
 }
 
 template<class T>
-LinkNode<T>* LinkBintree<T>::CreatRoot(const T& x)			//ÒÔÖ¸¶¨ÔªËØÖµ´´½¨¸ù½Úµã
+TLinkNode<T>* LinkBintree<T>::CreatRoot(const T& x)			//ÒÔÖ¸¶¨ÔªËØÖµ´´½¨¸ù½Úµã
 {
 	if (Root != NULL)		//ÈôÔ­ÏÈ´æÔÚ¸ù½áµã£¬Ö±½Ó½«X¸³¸ø¸ù½áµã
 	{
 		Root->data = x;
 	}
-	elsw					//·ñÔò£¬´´½¨Ò»¸öĞÂµÄ¸ù½Úµã  ¸³ÖµÎªx
+	else					//·ñÔò£¬´´½¨Ò»¸öĞÂµÄ¸ù½Úµã  ¸³ÖµÎªx
 	{
-		Root = new LinkNode<T>(x);
+		Root = new TLinkNode<T>(x);
 	}
 	return Root;
 }
@@ -42,29 +43,35 @@ LinkNode<T>* LinkBintree<T>::CreatRoot(const T& x)			//ÒÔÖ¸¶¨ÔªËØÖµ´´½¨¸ù½Úµã
 template<class T>
 void LinkBintree<T>::Clear()								//Çå¿Õ¶ş²æÊ÷
 {
-
+	DeleteSubTree(Root);
 }
 
+
+//»ñÈ¡Éî¶È
 template<class T>
-int LinkBintree<T>::GetDepth()												//»ñÈ¡Éî¶È
+int LinkBintree<T>::GetDepth(TLinkNode<T>* pNode)			//µİ¹é·¨£¬Çó×óÓÒ×ÓÊ÷¸ß¶È£¬½Ï´óµÄ¼Ó1
 {
-
+	if (pNode == NULL)
+		return 0;
+	int leftheitht = GetDepth(pNode->pLeftChild);
+	int rightheitht = GetDepth(pNode->pRightChild);
+	return max(leftheitht, rightheitht) + 1;
 }
 
 template<class T>
-LinkNode<T>* LinkBintree<T>::GetRoot()										//»ñÈ¡¸ù½Úµã
+TLinkNode<T>* LinkBintree<T>::GetRoot()										//»ñÈ¡¸ù½Úµã
 {
 	return Root;
 }
 
 //template<class T>
-//LinkNode<T>* LinkBintree<T>::Getnode()									//»ñÈ¡Ö¸¶¨½Úµã
+//TLinkNode<T>* LinkBintree<T>::Getnode()									//»ñÈ¡Ö¸¶¨½Úµã
 //{
 //
 //}
 
 template<class T>
-bool LinkBintree<T>::Getnodevalue(LinkNode<T>* pNode, const T& x)			//»ñÈ¡Ö¸¶¨½ÚµãÔªËØµÄÖµ
+bool LinkBintree<T>::Getnodevalue(TLinkNode<T>* pNode, const T& x)			//»ñÈ¡Ö¸¶¨½ÚµãÔªËØµÄÖµ
 {
 	if (pNode == NULL)
 	{
@@ -78,7 +85,7 @@ bool LinkBintree<T>::Getnodevalue(LinkNode<T>* pNode, const T& x)			//»ñÈ¡Ö¸¶¨½Ú
 }
 
 template<class T>
-LinkNode<T>* LinkBintree<T>::GetLeftnode(LinkNode<T>* pNode)				//»ñÈ¡½áµã×óº¢×Ó
+TLinkNode<T>* LinkBintree<T>::GetLeftnode(TLinkNode<T>* pNode)				//»ñÈ¡½áµã×óº¢×Ó
 {
 	if (pNode == NULL)
 	{
@@ -86,12 +93,12 @@ LinkNode<T>* LinkBintree<T>::GetLeftnode(LinkNode<T>* pNode)				//»ñÈ¡½áµã×óº¢×Ó
 	}
 	else
 	{
-		return pNode->pLeftChlid;
+		return pNode->pLeftChild;
 	}
 }
 
 template<class T>
-LinkNode<T>* LinkBintree<T>::GetRightnode(LinkNode<T>* pNode)				//»ñÈ¡½áµãÓÒº¢×Ó
+TLinkNode<T>* LinkBintree<T>::GetRightnode(TLinkNode<T>* pNode)				//»ñÈ¡½áµãÓÒº¢×Ó
 {
 	if (pNode == NULL)
 	{
@@ -99,68 +106,150 @@ LinkNode<T>* LinkBintree<T>::GetRightnode(LinkNode<T>* pNode)				//»ñÈ¡½áµãÓÒº¢×
 	}
 	else
 	{
-		return pNode->pRightChlid;
+		return pNode->pRightChild;
 	}
 }
 
 template<class T>
-LinkNode<T>* LinkBintree<T>::GetParent(LinkNode<T>* pNode)					//»ñÈ¡Ö¸¶¨½ÚµãµÄË«Ç×½áµã ·Çµİ¹é·½Ê½
+TLinkNode<T>* LinkBintree<T>::GetParent(TLinkNode<T>* pNode)					//»ñÈ¡Ö¸¶¨½ÚµãµÄË«Ç×½áµã ·Çµİ¹é·½Ê½
 {
+	LinkQueue<TLinkNode<T>*>q;
+	TLinkNode<T>* ppNode = NULL;
+	if (Root == pNode || Root == NULL)
+	{
+		cout << "¸ù½ÚµãÎŞË«Ç×" << endl;
+		return NULL;
+	}
+	else
+	{
+		q.Insert(Root);
+		while (!q.IsEmpty())
+		{
+			q.Delete(ppNode);
 
+			if (ppNode->pLeftChild == pNode || ppNode->pRightChild == pNode)
+			{
+				return ppNode;
+			}
+			
+			if (ppNode->pLeftChild)
+				q.Insert(ppNode->pLeftChild);
+			if (ppNode->pRightChild)
+				q.Insert(ppNode->pRightChild);
+		}
+		return NULL;
+	}
 } 
 
 template<class T>
-LinkNode<T>* LinkBintree<T>::InsertLeftChild(LinkNode<T>* pNode, const T& x)		//½«Ò»¸ö½áµã×÷ÎªÖ¸¶¨½áµãµÄ×óº¢×Ó²åÈë
+TLinkNode<T>* LinkBintree<T>::InsertLeftChild(TLinkNode<T>* pNode, const T& x)		//½«Ò»¸ö½áµã×÷ÎªÖ¸¶¨½áµãµÄ×óº¢×Ó²åÈë
 {
-	LinkNode<T>* newNode;
+	TLinkNode<T>* newNode;
 	if (pNode == NULL)
 	{
 		return NULL;
 	}
 	 
-	newNode = new LinkNode<T>(x);
+	newNode = new TLinkNode<T>(x);
 	if (newNode == NULL)
 		return NULL;
-	pNode->pLeftChlid = newNode;
-	return NewNode;
+	pNode->pLeftChild = newNode;
+	return newNode;
 }
 
 template<class T>
-LinkNode<T>* LinkBintree<T>::InsertRightChild(LinkNode<T>* pNode, const T& x)		//½«Ò»¸ö½áµã×÷ÎªÖ¸¶¨½áµãµÄÓÒº¢×Ó²åÈë
+TLinkNode<T>* LinkBintree<T>::InsertRightChild(TLinkNode<T>* pNode, const T& x)		//½«Ò»¸ö½áµã×÷ÎªÖ¸¶¨½áµãµÄÓÒº¢×Ó²åÈë
 {
-	LinkNode<T>* newNode;
+	TLinkNode<T>* newNode;
 	if (pNode == NULL)
 	{
 		return NULL;
 	}
 
-	newNode = new LinkNode<T>(x);
+	newNode = new TLinkNode<T>(x);
 	if (newNode == NULL)
 		return NULL;
-	pNode->pRightChlid = newNode;
-	return NewNode;
+	pNode->pRightChild = newNode;
+	return newNode;
 }
 
 template<class T>
-void LinkBintree<T>::DeleteSubTree(LinkNode<T>* pNode)								//É¾³ıÒÔÖ¸¶¨½ÚµãÎª¸úµÄ×ÓÊ÷
+void LinkBintree<T>::DeleteSubTree(TLinkNode<T>* pNode)								//É¾³ıÒÔÖ¸¶¨½ÚµãÎª¸úµÄ×ÓÊ÷
 {
-
+	TLinkNode<T>* pParentNode = NULL;
+	//ÈôÖ¸¶¨½áµãÎª¿Õ
+	if (pNode == NULL)
+		return;
+	//Èô½«Õû¿Ã¶ş²æÊ÷É¾³ı£¬ÔòÁî¸ù½ÚµãÎª¿Õ
+	if (Root == pNode)
+		Root = NULL;
+	//Èô½«Ö¸¶¨½áµãÎª¸ùµÄ×ÓÊ÷É¾³ı Ö¸¶¨½áµã´æÔÚË«Ç×½áµã£¬Ôò½«¸Ã½áµãµÄ×óº¢×Ó»òÕßÓÒº¢×ÓÖÃ¿Õ
+	else if ((pParentNode = GetParent(pNode)) != NULL)
+	{
+		if (pParentNode->pLeftChild == pNode)
+		{
+			pParentNode->pLeftChild = NULL;
+		}
+		else
+		{
+			pParentNode->pRightChild = NULL;
+		}
+	}
+	//·ñÔò£¬Ö¸¶¨½Úµã²»ÊÇ¶ş²æÊ÷ÖĞµÄ½áµã£¬Ö±½Ó·µ»Ø
+	else
+		return;
+	DeleteSubTreeNode(pNode);		//µ÷ÓÃDeleteSubTreeNodeÉ¾³ıÒÔpNodeÎª¸ùµÄ×ÓÊ÷
 }
 
 template<class T>
-void LinkBintree<T>::DeleteSubTreeNode(LinkNode<T>* pNode)							//ÓÉdeletesubtreeµ÷ÓÃ
+void LinkBintree<T>::DeleteSubTreeNode(TLinkNode<T>* pNode)							//ÓÉdeletesubtreeµ÷ÓÃ
 {
+	//°´·Çµİ¹é²ã´Î±éÀúµÄ·½Ê½É¾³ı×ÓÊ÷
+	LinkQueue<TLinkNode<T>*>q;
+	TLinkNode<T>* ppNode;
 
+	if (pNode == NULL)
+		return;
+	q.Insert(pNode);
+	
+	while (!q.IsEmpty())
+	{
+		q.Delete(ppNode);
+		if (ppNode->pLeftChild)
+			q.Insert(ppNode->pLeftChild);
+		if (ppNode->pRightChild)
+			q.Insert(ppNode->pRightChild);
+		delete ppNode;
+	}
 }
 
 template<class T>
-LinkNode<T>* LinkBintree<T>::SearchByKey(const T& x)								//°´¹Ø¼ü×Ö²éÕÒ½áµã
+TLinkNode<T>* LinkBintree<T>::SearchByKey(const T& x)								//°´¹Ø¼ü×Ö²éÕÒ½áµã
 {
+	LinkQueue<TLinkNode<T>*>q;
+	TLinkNode<T>* pNode;
+	if (Root == NULL)
+		return NULL;
 
+	//°´·Çµİ¹é·½Ê½²ã´Î±éÀú¶ş²æÊ÷
+	q.Insert(Root);
+
+	while (!IsEmpty())
+	{
+		q.Delete(pNode);
+		if (pNode->data == x)
+			return pNode;
+
+		if (pNode->pLeftChild)
+			q.Insert(pNode->pLeftChild);
+		if (pNode->pRightChild)
+			q.Insert(pNode->pRightChild);
+	}
+	return NULL;
 }
 
 template<class T>
-bool LinkBintree<T>::ModifyNodeValue(LinkNode<T>* pNode, const T& x)				//ĞŞ¸ÄÖ¸¶¨½ÚµãµÄÔªËØÖµ
+bool LinkBintree<T>::ModifyNodeValue(TLinkNode<T>* pNode, const T& x)				//ĞŞ¸ÄÖ¸¶¨½ÚµãµÄÔªËØÖµ
 {
 	if (pNode == NULL)
 	{
@@ -176,7 +265,7 @@ bool LinkBintree<T>::ModifyNodeValue(LinkNode<T>* pNode, const T& x)				//ĞŞ¸ÄÖ¸
 
 //µİ¹é
 template<class T>
-void LinkBintree<T>::PreOrderTraverse(LinkNode<T>* pNode)		//ÏÈĞò±éÀú
+void LinkBintree<T>::PreOrderTraverse(TLinkNode<T>* pNode)		//ÏÈĞò±éÀú
 {
 	if (pNode == NULL)
 	{
@@ -186,35 +275,40 @@ void LinkBintree<T>::PreOrderTraverse(LinkNode<T>* pNode)		//ÏÈĞò±éÀú
 	{
 		cout << pNode->data << " ";
 	}
-	PreOrderTraverse(pNode->pLeftChlid);
-	PreOrderTraverse(pNode->pRightChlid);
+	PreOrderTraverse(pNode->pLeftChild);
+	PreOrderTraverse(pNode->pRightChild);
 }
 
 template<class T>
-void LinkBintree<T>::InOrderTraverse(LinkNode<T>* pNode)		//ÖĞĞò±éÀú
+void LinkBintree<T>::InOrderTraverse(TLinkNode<T>* pNode)		//ÖĞĞò±éÀú
 {
 	if (pNode == NULL)
 	{
 		return;
 	}
-	InOrderTraverse(pNode->pLeftChli  d);
-	cout << pNode->data << "";
-	InOrderTraverse(pNode->pRightChlld);
+	InOrderTraverse(pNode->pLeftChild);
+	cout << pNode->data << " ";
+	InOrderTraverse(pNode->pRightChild);
 }
 
 template<class T>
-void LinkBintree<T>::PostOrderTraverse(LinkNode<T>* pNode)		//ºóĞò±éÀú
+void LinkBintree<T>::PostOrderTraverse(TLinkNode<T>* pNode)		//ºóĞò±éÀú
 {
-
+	if (pNode == NULL)
+	{
+		return;
+	}
+	PostOrderTraverse(pNode->pLeftChild);
+	PostOrderTraverse(pNode->pRightChild);
+	cout << pNode->data << " ";
 }
-
 
 //·Çµİ¹é
 template<class T>
 void LinkBintree<T>::PreOrderTraverse()	//ÏÈĞò±éÀú
 {
-	Stack<LinkNode<T>*> s;
-	LinkNode<T>* pNode; = NULL;
+	Stack<TLinkNode<T>*> s;
+	TLinkNode<T>* pNode = NULL;
 
 	if (Root == NULL)
 		return;
@@ -228,14 +322,14 @@ void LinkBintree<T>::PreOrderTraverse()	//ÏÈĞò±éÀú
 		s.Pop(pNode);
 		cout << pNode->data << " ";
 		//Èô½áµã´æÔÚÓÒ×ÓÊ÷£¬Ôò½«ÓÒ×ÓÊ÷¸ù½ÚµãÈëÕ»
-		if (pNode->pRightChlid)
+		if (pNode->pRightChild)
 		{
-			s.Push(pNode->pRightChlid);
+			s.Push(pNode->pRightChild);
 		}
 		//Èô½áµã´æÔÚ×ó×ÓÊ÷£¬Ôò½«×ó×ÓÊ÷¸ù½ÚµãÈëÕ»
-		if (pNode->pLeftChlid)
+		if (pNode->pLeftChild)
 		{
-			s.Push(pNode->pLeftChlid);
+			s.Push(pNode->pLeftChild);
 		}
 	}
 }
@@ -243,17 +337,94 @@ void LinkBintree<T>::PreOrderTraverse()	//ÏÈĞò±éÀú
 template<class T>
 void LinkBintree<T>::InOrderTraverse()		//ÖĞĞò±éÀú
 {
+	Stack<TLinkNode<T>*> s;
+	TLinkNode<T>* pNode = NULL;
 
+	if (Root == NULL)
+		return;
+	pNode = Root;
+
+	//Ñ­»·±éÀú¶ş²æÊ÷
+	while (!s.IsEmpty())
+	{
+		if (pNode || !IsEmpty())
+		{
+			s.Push(pNode);
+			pNode = pNode->pLeftChild;
+		}
+		else
+		{
+			s.Pop(pNode);
+			cout << pNode->data << " ";
+			pNode = pNode->pRightChild;
+		}
+	}
 }
 
 template<class T>
 void LinkBintree<T>::PostOrderTraverse()	//ºóĞò±éÀú
 {
-
+	Stack<TLinkNode<T>*> s1;
+	Stack<TLinkNode<T>*> s2;
+	TLinkNode<T>* pNode;
+	if (Root == NULL)
+	{
+		return;
+	}
+	//¸ù½ÚµãÑ¹Èës1
+	s1.Push(Root);
+	//Ñ­»·±éÀú
+	while (!s1.IsEmpty())
+	{
+		//½«½Úµãµ¯³ö²¢Ñ¹Èës2
+		s1.Pop(pNode);
+		s2.Push(pNode);
+		//½«×óº¢×ÓÓÒº¢×ÓÑ¹ÈëÕ»
+		if (pNode->pLeftChild)
+		{
+			s1.Push(pNode->pLeftChild);
+		}
+		if (pNode->pRightChild)
+		{
+			s1.Push(pNode->pRightChild);
+		}
+	}
+	while (!s2.IsEmpty())
+	{
+		s2.Pop(pNode);
+		cout << pNode->data << " ";
+	}
 }
 
 template<class T>
 void LinkBintree<T>::LevelOrderTraverse()	//Öğ²ã±éÀú
 {
+	LinkQueue<TLinkNode<T>*>q;
+	TLinkNode<T>* pNode = NULL;
+	if (Root == NULL)
+	{
+		return;
+	}
+	else
+	{
+		q.Insert(Root);						//½«¸ù½ÚµãÈë¶Ó
 
+		while (!q.IsEmpty())
+		{
+			//¶ÓÍ·ÔªËØ³öÕ»²¢±»·ÃÎÊ
+			q.Delete(pNode);
+			cout << pNode->data << " ";
+
+			//Èô½áµã´æÔÚ×ó×ÓÊ÷£¬Ôò½«×ó×ÓÊ÷¸ù½ÚµãÈëÕ»
+			if (pNode->pLeftChild)
+			{
+				q.Insert(pNode->pLeftChild);
+			}
+			//Èô½áµã´æÔÚÓÒ×ÓÊ÷£¬Ôò½«ÓÒ×ÓÊ÷¸ù½ÚµãÈëÕ»
+			if (pNode->pRightChild)
+			{
+				q.Insert(pNode->pRightChild);
+			}	
+		}
+	}
 }

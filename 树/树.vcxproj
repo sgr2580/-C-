@@ -139,6 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BST.h" />
+    <ClInclude Include="BST.hpp" />
+    <ClInclude Include="Huffmantree.h" />
     <ClInclude Include="LinkQueue.hpp" />
     <ClInclude Include="linkstack.h" />
     <ClInclude Include="linkstack.hpp" />

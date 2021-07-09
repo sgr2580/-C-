@@ -36,6 +36,15 @@
     <ClInclude Include="NoMem.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="BST.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BST.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Huffmantree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="树.cpp">

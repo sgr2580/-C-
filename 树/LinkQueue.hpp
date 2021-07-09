@@ -14,10 +14,10 @@ class LinkNode
 {
 public:
 	friend class LinkQueue<T>;
-	//LinkNode()			//构造函数
-	//{
-	//	next = NULL;
-	//}
+	LinkNode()			//构造函数
+	{
+		next = NULL;
+	}
 private:
 	T data;
 	LinkNode<T>* next;
@@ -39,9 +39,9 @@ public:
 
 	T& getTail() const;						//返回队尾元素
 
-	bool Insert(T& x);						//插入
+	bool Insert(T& y);						//插入
 
-	bool Delete(T& x);						//删除队头
+	bool Delete(T& y);						//删除队头
 
 	void print();							//打印队列
 
@@ -67,10 +67,10 @@ LinkQueue<T>::LinkQueue()			//构造函数
 template<class T>
 LinkQueue<T>::~LinkQueue()							//析构函数
 {
-	T x;
+	T y;
 	while (front != NULL)
 	{
-		Delete(x);
+		Delete(y);
 	}
 }
 
@@ -111,7 +111,7 @@ T& LinkQueue<T>::getTail() const						//返回队尾元素
 }
 
 template<class T>
-bool LinkQueue<T>::Insert(T& x)						//插入 入队
+bool LinkQueue<T>::Insert(T& y)						//插入 入队
 {
 	LinkNode<T>* p = new LinkNode<T>;
 	if (p == NULL)
@@ -120,7 +120,7 @@ bool LinkQueue<T>::Insert(T& x)						//插入 入队
 	}
 	else
 	{
-		p->data = x;
+		p->data = y;
 		if (front == NULL)
 		{
 			front = p;
@@ -137,9 +137,9 @@ bool LinkQueue<T>::Insert(T& x)						//插入 入队
 }
 
 template<class T>
-bool LinkQueue<T>::Delete(T& x)						//删除队头 出队
+bool LinkQueue<T>::Delete(T& y)						//删除队头 出队
 {
-	LinkNode<T>* p;
+	LinkNode<T>* p = new LinkNode<T>;
 	if (IsEmpty())
 	{
 		return false;
@@ -147,7 +147,7 @@ bool LinkQueue<T>::Delete(T& x)						//删除队头 出队
 	else
 	{
 		p = front;
-		x = front->data;
+		y = front->data;
 		front = front->next;
 		delete p;					//删除队头结点
 		size--;
@@ -198,8 +198,8 @@ int LinkQueue<T>::getlength() const					//获得队列的长度
 
 //重载插入运算符<<
 template<class T>
-ostream& operator<<(ostream& out, const LinkQueue<T>& x)
+ostream& operator<<(ostream& out, const LinkQueue<T>& y)
 {
-	x.print(out);
+	y.print(out);
 	return out;
 }
